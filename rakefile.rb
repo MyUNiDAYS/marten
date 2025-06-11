@@ -4,7 +4,7 @@ require 'json'
 
 COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
 RESULTS_DIR = "results"
-BUILD_VERSION = '2.10.0'
+BUILD_VERSION = '2.11.0'
 CONNECTION = ENV['connection']
 
 tc_build_number = ENV["BUILD_NUMBER"]
@@ -20,7 +20,7 @@ desc "Prepares the working directory for a new build"
 task :clean do
   #TODO: do any other tasks required to clean/prepare the working directory
   FileUtils.rm_rf RESULTS_DIR
-  FileUtils.rm_rf 'artifacts'
+  FileUtils.rm_rf 'artifacts.html'
 
 end
 
@@ -64,12 +64,12 @@ end
 
 desc 'Compile the code'
 task :compile => [:clean, :restore] do
-  sh "dotnet build src/Marten.Testing/Marten.Testing.csproj --framework netcoreapp2.0 --configuration #{COMPILE_TARGET}"
+  sh "dotnet build src/Marten.Testing/Marten.Testing.csproj --configuration #{COMPILE_TARGET}"
 end
 
 desc 'Run the unit tests'
 task :test => [:compile] do
-  sh 'dotnet test src/Marten.Testing/Marten.Testing.csproj --framework netcoreapp2.0'
+  sh 'dotnet test src/Marten.Testing/Marten.Testing.csproj'
 end
 
 
@@ -81,7 +81,7 @@ end
 desc "Run the storyteller specifications"
 task :storyteller => [:compile] do
 	Dir.chdir("src/Marten.Storyteller") do
-	  system "dotnet storyteller run -r artifacts --culture en-US"
+	  system "dotnet run -- -r artifacts.html --culture en-US"
 	end
 end
 
@@ -156,13 +156,11 @@ task :recordbenchmarks do
 	end
 end
 
-
 desc 'Build the Nupkg file'
 task :pack => [:compile] do
-	sh "dotnet pack ./src/Marten -o ./../../artifacts --configuration Release"
-	sh "dotnet pack ./src/Marten.CommandLine -o ./../../artifacts --configuration Release"
+	sh "dotnet pack ./src/Marten -o ./artifacts --configuration Release"
+	sh "dotnet pack ./src/Marten.CommandLine -o ./artifacts --configuration Release"
 end
-
 
 def load_project_file(project)
   File.open(project) do |file|

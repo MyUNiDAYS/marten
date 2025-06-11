@@ -1,0 +1,17 @@
+name: marten-infrastructure
+services:
+  database:
+    image: public.ecr.aws/f3w3g2g6/docker-postgres-plv8:13.2-2.3.15
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+      - ./database-setup:/docker-entrypoint-initdb.d:ro
+    environment:
+      - POSTGRES_DB=marten-test-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: unless-stopped
+    ports:
+      - 5446:5432
+      
+volumes:
+  pgdata:
