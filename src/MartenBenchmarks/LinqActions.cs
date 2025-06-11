@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using Baseline;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using Marten;
 using Marten.Linq;
 using Marten.Testing;
@@ -15,7 +14,7 @@ namespace MartenBenchmarks
 
     public class LinqActions
     {
-        [Setup]
+        [GlobalSetup]
         public void Setup()
         {
             var docs = Target.GenerateRandomData(500).ToArray();
@@ -27,7 +26,7 @@ namespace MartenBenchmarks
         }
 
         [Benchmark]
-        [MemoryDiagnoser]
+        // [MemoryDiagnoser]
         public void CreateLinqCommand()
         {
             using (var session = BenchmarkStore.Store.OpenSession())
@@ -39,7 +38,7 @@ namespace MartenBenchmarks
         }
 
         [Benchmark]
-        [MemoryDiagnoser]
+        // [MemoryDiagnoser]
         public void RunLinqQuery()
         {
             using (var query = BenchmarkStore.Store.OpenSession())
@@ -50,7 +49,7 @@ namespace MartenBenchmarks
         }
 
         [Benchmark]
-        [MemoryDiagnoser]
+        // [MemoryDiagnoser]
         public void CompiledQueries()
         {
             using (var query = BenchmarkStore.Store.OpenSession())

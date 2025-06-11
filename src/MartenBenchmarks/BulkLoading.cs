@@ -1,6 +1,5 @@
 using System.Linq;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using Marten.Testing;
 
 namespace MartenBenchmarks
@@ -11,14 +10,14 @@ namespace MartenBenchmarks
     {
         public static Target[] Docs = Target.GenerateRandomData(1000).ToArray();
 
-        [Setup]
+        [GlobalSetup]
         public void Setup()
         {
             BenchmarkStore.Store.Advanced.Clean.DeleteDocumentsFor(typeof(Target));
         }
 
         [Benchmark]
-        [MemoryDiagnoser]
+        // [MemoryDiagnoser]
         public void BulkInsertDocuments()
         {
             BenchmarkStore.Store.Advanced.Clean.DeleteDocumentsFor(typeof(Target));
