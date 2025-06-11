@@ -4,8 +4,7 @@ namespace Marten.Testing
 {
     public class ConnectionSource : ConnectionFactory
     {
-        public static readonly string ConnectionString = Environment.GetEnvironmentVariable("marten_testing_database")
-            ?? "Host=localhost;Port=5432;Database=postgres;Username=postgres;password=postgres";
+        public static readonly string ConnectionString = "Command Timeout=0;Database=marten-test-db;MaxPoolSize=10;Password=postgres;Port=5446;Server=localhost;Timeout=60;User Id=postgres";
 
         static ConnectionSource()
         {
