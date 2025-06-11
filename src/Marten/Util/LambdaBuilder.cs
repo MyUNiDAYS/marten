@@ -98,9 +98,7 @@ namespace Marten.Util
             return ExpressionCompiler.Compile<Func<TTarget, TValue>>(lambda);
         }
 
-
-
-        private static readonly MethodInfo _getName = typeof(Enum).GetMethod(nameof(Enum.GetName), BindingFlags.Static | BindingFlags.Public);
+        private static readonly MethodInfo _getName = typeof(Enum).GetMethods().Single(x => x.Name == nameof(Enum.GetName) && !x.IsGenericMethod);
 
         public static Expression ToExpression(EnumStorage enumStorage, MemberInfo[] members, ParameterExpression target)
         {
