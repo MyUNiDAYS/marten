@@ -1,5 +1,5 @@
 > [!CAUTION]
-> This repo is a fork of marten, but has been reset to v2.10.3 (the last v2 release)
+> This repo is a fork of [marten](https://github.com/JasperFx/marten), but has been reset to [v2.10.3](https://github.com/JasperFx/marten/releases/tag/2.10.3) (the last v2 release)
 
 # Marten 
 ## Polyglot Persistence Powered by .NET and PostgreSQL
