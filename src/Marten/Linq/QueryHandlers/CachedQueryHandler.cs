@@ -35,7 +35,7 @@ namespace Marten.Linq.QueryHandlers
                 var param = _setters[i].AddParameter(_model, builder);
                 param.NpgsqlDbType = _template.Parameters[i].NpgsqlDbType;
 
-                sql = sql.Replace(":" + _template.Parameters[i].ParameterName, ":" + param.ParameterName);
+                sql = sql.Replace(":" + _template.Parameters[i].ParameterName, ":" + param.ParameterName, StringComparison.Ordinal);
             }
 
             builder.Append(sql);

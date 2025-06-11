@@ -16,7 +16,7 @@ namespace Marten.Transforms
         public readonly IList<string> OtherArgs = new List<string>();
 
         public TransformFunction(StoreOptions options, string name, string body)
-            : base(new DbObjectName(options.DatabaseSchemaName, "mt_transform_" + name.Replace(".", "_")))
+            : base(new DbObjectName(options.DatabaseSchemaName, "mt_transform_" + name.Replace('.', '_')))
         {
             Name = name;
             Body = body;

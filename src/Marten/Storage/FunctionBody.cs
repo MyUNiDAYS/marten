@@ -15,8 +15,8 @@ namespace Marten.Storage
         public string Signature()
         {
             var functionIndex = Body.IndexOf("FUNCTION", StringComparison.OrdinalIgnoreCase);
-            var openParen = Body.IndexOf("(");
-            var closeParen = Body.IndexOf(")");
+            var openParen = Body.IndexOf('(');
+            var closeParen = Body.IndexOf(')');
 
             var args = Body.Substring(openParen + 1, closeParen - openParen - 1).Trim()
                 .Split(',').Select(x =>
@@ -47,9 +47,9 @@ namespace Marten.Storage
         public string BuildTemplate(string template)
         {
             return template
-                .Replace(DdlRules.SCHEMA, Function.Schema)
-                .Replace(DdlRules.FUNCTION, Function.Name)
-                .Replace(DdlRules.SIGNATURE, Signature())
+                .Replace(DdlRules.SCHEMA, Function.Schema, StringComparison.Ordinal)
+                .Replace(DdlRules.FUNCTION, Function.Name, StringComparison.Ordinal)
+                .Replace(DdlRules.SIGNATURE, Signature(), StringComparison.Ordinal)
                 ;
         }
 

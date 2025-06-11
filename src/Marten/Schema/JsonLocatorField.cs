@@ -115,7 +115,7 @@ namespace Marten.Schema
         public string LocatorFor(string rootTableAlias)
         {
             // Super hokey.
-            return SqlLocator.Replace("d.", rootTableAlias + ".");
+            return SqlLocator.Replace("d.", rootTableAlias + ".", StringComparison.Ordinal);
         }
     }
 }

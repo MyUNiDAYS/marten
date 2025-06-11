@@ -80,7 +80,7 @@ namespace Marten.Schema
         {
             var jsonField = new JsonLocatorField("d.data", _enumStorage, Casing.Default, Members);
             // HOKEY, but I'm letting it pass for now.
-            var sqlLocator = jsonField.SqlLocator.Replace("d.", "");
+            var sqlLocator = jsonField.SqlLocator.Replace("d.", "", StringComparison.Ordinal);
 
             return $"{ColumnName} = {sqlLocator}";
         }

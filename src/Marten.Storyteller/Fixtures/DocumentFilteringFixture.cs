@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Baseline;
 using Marten.Linq;
 using Marten.Linq.SoftDeletes;
@@ -103,7 +104,7 @@ namespace Marten.Storyteller.Fixtures
 
         private string extractWhereClause(NpgsqlCommand cmd)
         {
-            var index = cmd.CommandText.ToLower().IndexOf("where");
+            var index = cmd.CommandText.ToLower().IndexOf("where", StringComparison.OrdinalIgnoreCase);
             return cmd.CommandText.Substring(index + 5).Trim();
         }
     }

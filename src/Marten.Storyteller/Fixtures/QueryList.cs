@@ -43,7 +43,7 @@ namespace Marten.Storyteller.Fixtures
 
                 if (line.StartsWith(ListName) && line.Contains("+="))
                 {
-                    var start = line.IndexOf("+=") + 2;
+                    var start = line.IndexOf("+=", StringComparison.Ordinal) + 2;
 
                     var query = line.Substring(start).TrimStart().TrimEnd(';');
                     query = query.Replace("docs => ", "").Replace("docs.", "session.Query<Target>().");

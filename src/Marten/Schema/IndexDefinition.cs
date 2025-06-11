@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Marten.Storage;
@@ -67,7 +68,7 @@ namespace Marten.Schema
             }
             else
             {
-                index += $" ({Expression.Replace("?", columns)})";
+                index += $" ({Expression.Replace("?", columns, StringComparison.Ordinal)})";
             }
 
             if (Modifier.IsNotEmpty())
@@ -85,7 +86,7 @@ namespace Marten.Schema
             var actual = index.DDL;
             if (Method == IndexMethod.btree)
             {
-                actual = actual.Replace("USING btree", "");
+                actual = actual.Replace("USING btree", "", StringComparison.Ordinal);
             }
 
             var columnsGroupPattern = "(?<columns>.*(?:(?:[\\w.]+)\\s?(?:[\\w_]+).*))";
@@ -95,7 +96,7 @@ namespace Marten.Schema
             {
                 var escapedExpression = Regex.Escape(Expression);
 
-                columnsMatchPattern = $"\\({escapedExpression.Replace("\\?", columnsGroupPattern)}\\)";
+                columnsMatchPattern = $"\\({escapedExpression.Replace("\\?", columnsGroupPattern, StringComparison.Ordinal)}\\)";
             }
 
             var match = Regex.Match(actual, columnsMatchPattern);
@@ -110,17 +111,17 @@ namespace Marten.Schema
 
                 var replacement = Expression.IsEmpty() ?
                     $"({columns.Trim()})" :
-                    $"({Expression.Replace("?", columns.Trim())})";
+                    $"({Expression.Replace("?", columns.Trim(), StringComparison.Ordinal)})";
 
                 actual = Regex.Replace(actual, columnsMatchPattern, replacement);
             }
 
             if (!actual.Contains(_parent.Table.QualifiedName))
             {
-                actual = actual.Replace("ON " + _parent.Table.Name, "ON " + _parent.Table.QualifiedName);
+                actual = actual.Replace("ON " + _parent.Table.Name, "ON " + _parent.Table.QualifiedName, StringComparison.Ordinal);
             }
 
-            actual = actual.Replace("  ", " ") + ";";
+            actual = actual.Replace("  ", " ", StringComparison.Ordinal) + ";";
 
             return ToDDL().EqualsIgnoreCase(actual);
         }
