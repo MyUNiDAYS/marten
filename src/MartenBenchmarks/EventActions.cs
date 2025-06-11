@@ -7,13 +7,13 @@ using Marten.Testing.CodeTracker;
 
 namespace MartenBenchmarks
 {
-    [SimpleJob(warmupCount: 2)]
+    [SimpleJob(warmupCount: 2)] 
+    [MemoryDiagnoser]
     public class EventActions
     {
         public Dictionary<Guid, GithubProject> AllProjects { get; private set; } = new Dictionary<Guid, GithubProject>();
 
         [GlobalSetup]
-        [MemoryDiagnoser]
         public void Setup()
         {
             var fileSystem = new FileSystem();
