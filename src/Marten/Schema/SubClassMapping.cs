@@ -193,9 +193,9 @@ namespace Marten.Schema
         {
             return documentType.Alias ??
                    documentType.Type.GetTypeName()
-                       .Replace(".", "_")
+                       .Replace('.', '_')
                        .SplitCamelCase()
-                       .Replace(" ", "_")
+                       .Replace(' ', '_')
                        .ToLowerInvariant();
         }
 

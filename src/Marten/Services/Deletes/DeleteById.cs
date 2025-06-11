@@ -35,7 +35,7 @@ namespace Marten.Services.Deletes
         public void ConfigureCommand(CommandBuilder builder)
         {
             var param = builder.AddParameter(Id, _storage.IdType);
-            builder.Append(Sql.Replace("?", ":" + param.ParameterName));
+            builder.Append(Sql.Replace("?", ":" + param.ParameterName, StringComparison.Ordinal));
             if (_tenancyStyle == TenancyStyle.Conjoined)
             {
                 builder.Append($" and {TenantWhereFragment.Filter}");

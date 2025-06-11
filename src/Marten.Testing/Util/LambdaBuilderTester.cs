@@ -93,7 +93,8 @@ namespace Marten.Testing.Util
         [Fact]
         public void can_get_the_Enum_GetName_method()
         {
-            typeof(Enum).GetMethod(nameof(Enum.GetName), BindingFlags.Static | BindingFlags.Public).ShouldNotBeNull();
+            typeof(Enum).GetMethods().Count(x => x.Name == nameof(Enum.GetName) && !x.IsGenericMethod)
+                .ShouldBe(1);
         }
 
         [Fact]

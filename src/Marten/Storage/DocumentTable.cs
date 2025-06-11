@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -65,11 +66,11 @@ namespace Marten.Storage
         public string BuildTemplate(string template)
         {
             return template
-                .Replace(DdlRules.SCHEMA, Identifier.Schema)
-                .Replace(DdlRules.TABLENAME, Identifier.Name)
-                .Replace(DdlRules.COLUMNS, _columns.Select(x => x.Name).Join(", "))
-                .Replace(DdlRules.NON_ID_COLUMNS, _columns.Where(x => !x.Name.EqualsIgnoreCase("id")).Select(x => x.Name).Join(", "))
-                .Replace(DdlRules.METADATA_COLUMNS, _columns.OfType<SystemColumn>().Select(x => x.Name).Join(", "));
+                .Replace(DdlRules.SCHEMA, Identifier.Schema, StringComparison.Ordinal)
+                .Replace(DdlRules.TABLENAME, Identifier.Name, StringComparison.Ordinal)
+                .Replace(DdlRules.COLUMNS, _columns.Select(x => x.Name).Join(", "), StringComparison.Ordinal)
+                .Replace(DdlRules.NON_ID_COLUMNS, _columns.Where(x => !x.Name.EqualsIgnoreCase("id")).Select(x => x.Name).Join(", "), StringComparison.Ordinal)
+                .Replace(DdlRules.METADATA_COLUMNS, _columns.OfType<SystemColumn>().Select(x => x.Name).Join(", "), StringComparison.Ordinal);
         }
 
         public void WriteTemplate(DdlTemplate template, StringWriter writer)

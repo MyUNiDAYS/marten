@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Baseline;
@@ -61,7 +62,7 @@ namespace Marten.Linq.Parsing
         {
             var param = builder.AddParameter(_values);
             param.NpgsqlDbType = NpgsqlDbType.Array | NpgsqlDbType.Varchar;
-            builder.Append(_filter.Replace("?", ":" + param.ParameterName));
+            builder.Append(_filter.Replace("?", ":" + param.ParameterName, StringComparison.Ordinal));
         }
 
         public bool Contains(string sqlText)

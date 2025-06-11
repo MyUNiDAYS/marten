@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Baseline;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
 using Marten.Testing.CodeTracker;
 
 namespace MartenBenchmarks
 {
-    [SimpleJob(warmupCount: 2)]
+    [SimpleJob(warmupCount: 2)] 
+    [MemoryDiagnoser]
     public class EventActions
     {
         public Dictionary<Guid, GithubProject> AllProjects { get; private set; } = new Dictionary<Guid, GithubProject>();
 
-        [Setup]
+        [GlobalSetup]
         public void Setup()
         {
             var fileSystem = new FileSystem();
@@ -42,7 +42,6 @@ namespace MartenBenchmarks
 
         
         [Benchmark]
-        [MemoryDiagnoser]
         public void AppendEvents()
         {
             var events = AllProjects.SelectMany(x => x.Value.Events).Take(1000).ToArray();

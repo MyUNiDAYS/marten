@@ -42,7 +42,7 @@ namespace Marten.Schema
                 throw new InvalidOperationException("Could not find embedded resource: " + name);
             }
             var text = stream.ReadAllText();
-            return text.Replace("{databaseSchema}", databaseSchemaName);
+            return text.Replace("{databaseSchema}", databaseSchemaName, StringComparison.Ordinal);
         }
     }
 }

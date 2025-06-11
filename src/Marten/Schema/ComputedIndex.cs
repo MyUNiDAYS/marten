@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Baseline;
 using Marten.Storage;
@@ -25,7 +26,7 @@ namespace Marten.Schema
             var mebersLocator = members
                     .Select(m =>
                     {
-                        var sql = mapping.FieldFor(m).SqlLocator.Replace("d.", "");
+                        var sql = mapping.FieldFor(m).SqlLocator.Replace("d.", "", StringComparison.Ordinal);
                         switch (Casing)
                         {
                             case Casings.Upper:

@@ -83,32 +83,34 @@ namespace Marten.Util
                 .Replace('\r', ' ')
                 .Replace('\t', ' ')
                 .ReplaceMultiSpace(" ")
-                .Replace("SECURITY INVOKER", "")
-                .Replace("  ", " ")
-                .Replace("LANGUAGE plpgsql AS $function$", "")
-                .Replace("$$ LANGUAGE plpgsql", "$function$")
-                .Replace("AS $$ DECLARE", "DECLARE")
-                .Replace("character varying", "varchar")
-                .Replace("Boolean", "boolean")
-                .Replace("bool,", "boolean,")
-                .Replace("int[]", "integer[]")
-                .Replace("numeric", "decimal").TrimEnd(';').TrimEnd();
+                .Replace("SECURITY INVOKER", "", StringComparison.OrdinalIgnoreCase)
+                .Replace("  ", " ", StringComparison.OrdinalIgnoreCase)
+                .Replace("LANGUAGE plpgsql AS $function$", "", StringComparison.OrdinalIgnoreCase)
+                .Replace("$$ LANGUAGE plpgsql", "$function$", StringComparison.OrdinalIgnoreCase)
+                .Replace("AS $$ DECLARE", "DECLARE", StringComparison.OrdinalIgnoreCase)
+                .Replace("character varying", "varchar", StringComparison.OrdinalIgnoreCase)
+                .Replace("Boolean", "boolean", StringComparison.OrdinalIgnoreCase)
+                .Replace("bool,", "boolean,", StringComparison.OrdinalIgnoreCase)
+                .Replace("int[]", "integer[]", StringComparison.OrdinalIgnoreCase)
+                .Replace("numeric", "decimal", StringComparison.OrdinalIgnoreCase)
+                .TrimEnd(';')
+                .TrimEnd();
 
             if (replaced.Contains("PLV8", StringComparison.OrdinalIgnoreCase))
             {
                 replaced = replaced
-                    .Replace("LANGUAGE plv8 IMMUTABLE STRICT AS $function$", "AS $$");
+                    .Replace("LANGUAGE plv8 IMMUTABLE STRICT AS $function$", "AS $$", StringComparison.OrdinalIgnoreCase);
 
                 const string languagePlv8ImmutableStrict = "$$ LANGUAGE plv8 IMMUTABLE STRICT";
                 const string functionMarker = "$function$";
                 if (replaced.EndsWith(functionMarker))
                 {
-                    replaced = replaced.Substring(0, replaced.LastIndexOf(functionMarker)) + languagePlv8ImmutableStrict;
+                    replaced = replaced.Substring(0, replaced.LastIndexOf(functionMarker, StringComparison.Ordinal)) + languagePlv8ImmutableStrict;
                 }
             }
 
             return replaced
-                .Replace("  ", " ").TrimEnd().TrimEnd(';');
+                .Replace("  ", " ", StringComparison.Ordinal).TrimEnd().TrimEnd(';');
         }
 
         public static NpgsqlDbType ToDbType(Type type)

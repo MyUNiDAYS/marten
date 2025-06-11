@@ -46,7 +46,7 @@ namespace Marten.Schema.BulkLoading
 
             var columns = arguments.Select(x => $"\"{x.Column}\"").Join(", ");
             _baseSql = $"COPY %TABLE%({columns}) FROM STDIN BINARY";
-            _sql = _baseSql.Replace("%TABLE%", mapping.Table.QualifiedName);
+            _sql = _baseSql.Replace("%TABLE%", mapping.Table.QualifiedName, StringComparison.Ordinal);
 
             var block = Expression.Block(expressions);
 
@@ -65,13 +65,13 @@ namespace Marten.Schema.BulkLoading
 
         public void Load(ITenant tenant, DbObjectName table, ISerializer serializer, NpgsqlConnection conn, IEnumerable<T> documents, CharArrayTextWriter textWriter)
         {
-            var sql = _baseSql.Replace("%TABLE%", table.QualifiedName);
+            var sql = _baseSql.Replace("%TABLE%", table.QualifiedName, StringComparison.Ordinal);
             load(tenant, serializer, conn, documents, sql, textWriter);
         }
 
         public void LoadIntoTempTable(ITenant tenant, ISerializer serializer, NpgsqlConnection conn, IEnumerable<T> documents, CharArrayTextWriter textWriter)
         {
-            var sql = _baseSql.Replace("%TABLE%", _tempTableName);
+            var sql = _baseSql.Replace("%TABLE%", _tempTableName, StringComparison.Ordinal);
             load(tenant, serializer, conn, documents, sql, textWriter);
         }
 
